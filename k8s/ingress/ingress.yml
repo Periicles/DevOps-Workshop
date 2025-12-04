@@ -17,7 +17,25 @@ spec:
                 port:
                   number: 8000
 
-          # 2) Order-service : /orders → NestJS
+          # 2) Breweries-service : /breweries → Express.ts
+          - path: /breweries
+            pathType: Prefix
+            backend:
+              service:
+                name: breweries-service
+                port:
+                  number: 3001
+
+          # 3) Favorites : /favorites → Express.ts
+          - path: /favorites
+            pathType: Prefix
+            backend:
+              service:
+                name: breweries-service
+                port:
+                  number: 3001
+
+          # 4) Order-service : /orders → NestJS
           - path: /orders
             pathType: Prefix
             backend:
@@ -26,7 +44,7 @@ spec:
                 port:
                   number: 4000
 
-          # 3) Frontend : tout le reste → Next.js
+          # 5) Frontend : tout le reste → Next.js
           - path: /
             pathType: Prefix
             backend:
