@@ -27,12 +27,14 @@ services:
 
   breweries-service:
     build:
-      context: ./breweries
+      context: ./breweries-service
     container_name: breweries-service
     ports:
       - "3001:3001"
     env_file:
-      - ./breweries/.env
+      - ./breweries-service/.env
+    volumes:
+      - breweries_db_data:/app/data
     depends_on:
       - auth-service
     restart: unless-stopped
@@ -54,3 +56,4 @@ services:
 volumes:
   auth_db_data:
   order_db_data:
+  breweries_db_data:
