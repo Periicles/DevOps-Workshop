@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BreweryList } from '../types';
+import { Brewery, BreweryList } from '../types';
 
 export class BreweryService {
     private apiUrl: string;
@@ -35,6 +35,17 @@ export class BreweryService {
         } catch (error: unknown) {
             const message = error instanceof Error ? error.message : String(error);
             throw new Error('Error fetching breweries by country: ' + message);
+        }
+    }
+
+    public async getBreweryById(id: string): Promise<Brewery | null> {
+        try {
+            const response = await axios.get<Brewery>(`${this.apiUrl}/${id}`);
+            return response.data;
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : String(error);
+            console.error('Error fetching brewery by id:', message);
+            return null;
         }
     }
 }

@@ -6,18 +6,27 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-# Copie du code source et build Next.js
+# Copie du code source et build TypeScript
 COPY . .
 RUN npm run build
 
 FROM node:20-alpine as runner
+
 WORKDIR /app
+
 ENV NODE_ENV=production
-# Copie de la build Next.js
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY package*.json ./
-# Installation uniquement des dépendances nécessaires au runtime
+
+# Copie de la build TypeScript
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package*.json ./
+
+# Installation uniquement des dépendances de runtime
 RUN npm ci --omit=dev
-EXPOSE 3000
-CMD ["npm", "start"]
+
+# Création d'un volume pour la base de données SQLite
+RUN mkdir -p /app/data
+VOLUME ["/app/data"]
+
+EXPOSE 3001
+
+CMD ["node", "dist/app.js"]

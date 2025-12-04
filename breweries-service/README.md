@@ -1,54 +1,79 @@
-# Breweries API Project
+# Breweries Service
 
-This project is a simple backend application that fetches data from the Open Brewery API. It provides routes to list all breweries.
+Un service TypeScript/Express qui récupère des données sur les brasseries depuis l'API **Open Brewery DB** et permet aux utilisateurs authentifiés de gérer leurs favoris.
 
-## Project Structure
+## Fonctionnalités
 
+- ✅ **Intégration API publique** : Consomme [Open Brewery DB API](https://www.openbrewerydb.org/)
+- ✅ **Authentification JWT** : Intégration avec l'auth-service
+- ✅ **Persistance de données** : Base SQLite pour stocker les favoris
+- ✅ **Endpoints protégés** : Toutes les routes nécessitent un JWT valide
+- ✅ **Health checks** : Endpoint `/health` pour la détection d'état
+- ✅ **Support multi-déploiement** : Local, Docker Compose, Kubernetes
+
+## API Endpoints Principaux
+
+### Brasseries (Protégés - JWT requis)
+
+- `GET /breweries` - Tous les brasseries
+- `GET /breweries/random` - Brasserie aléatoire
+- `GET /breweries/country/:country` - Par pays
+
+### Favoris (Protégés - JWT requis)
+
+- `GET /favorites` - Récupérer les favoris
+- `POST /favorites` - Ajouter un favori
+- `DELETE /favorites/:breweryId` - Retirer un favori
+- `GET /favorites/:breweryId/check` - Vérifier si favori
+
+### Santé
+
+- `GET /health` - État du service (pas d'authentification)
+
+## Installation & Démarrage
+
+### Mode Local
+
+```bash
+npm install
+npm run dev      # Développement
+npm run build    # Builder
+npm start        # Production
 ```
-breweries
-├── src
-│   ├── app.ts                # Entry point of the application
-│   ├── controllers           # Contains controllers for handling requests
-│   │   └── breweriesController.ts
-│   ├── routes                # Defines the routes for the application
-│   │   └── breweries.ts
-│   ├── services              # Contains services for API calls
-│   │   └── breweryService.ts
-│   └── types                 # Type definitions for the application
-│       └── index.d.ts
-├── package.json              # NPM configuration file
-├── tsconfig.json             # TypeScript configuration file
-├── .env.example              # Example environment variables
-└── README.md                 # Project documentation
+
+### Mode Docker Compose
+
+```bash
+docker-compose up -d breweries-service
 ```
 
-## Setup Instructions
+### Mode Kubernetes
 
-1. **Clone the repository**:
-   ```
-   git clone <repository-url>
-   cd breweries
-   ```
+```bash
+kubectl apply -f k8s/breweries/
+kubectl get pods -l app=breweries-service
+```
 
-2. **Install dependencies**:
-   ```
-   npm install
-   ```
+## Variables d'Environnement
 
-3. **Run the application**:
-   ```
-   npm start
-   ```
+```env
+PORT=3001
+JWT_SECRET=your-shared-secret-key
+DB_PATH=./breweries.db
+NODE_ENV=production
+```
 
-## Usage
+## Technologies
 
-- The application exposes an endpoint to fetch all breweries:
-  ```
-  GET /breweries
-  ```
+- Express.js
+- TypeScript
+- SQLite (better-sqlite3)
+- JWT (jsonwebtoken)
+- Axios
 
-This will return a list of breweries fetched from the Open Brewery API.
+## Intégration Frontend
 
-## License
+Le frontend communique via:
 
-This project is licensed under the MIT License.
+- `/api/favorites` - Routes intermédiaires Next.js
+- `/api/breweries` - Proxy vers ce service
