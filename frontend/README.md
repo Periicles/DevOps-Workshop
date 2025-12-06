@@ -1,36 +1,142 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend
 
-## Getting Started
+Interface utilisateur Next.js pour le système de gestion des brasseries et commandes.
 
-First, run the development server:
+**Port** : `3000` | **Framework** : Next.js 16 | **Langage** : TypeScript | **Styles** : Tailwind CSS
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 📁 Structure
+
+```text
+frontend/
+├── app/
+│   ├── page.tsx                    # Page d'accueil
+│   ├── layout.tsx                  # Layout global
+│   ├── globals.css                 # Styles globaux
+│   ├── favicon.ico                 # Icône
+│   ├── api/                        # Routes API (proxy backend)
+│   │   ├── auth-login/route.ts
+│   │   ├── breweries/route.ts
+│   │   ├── favorites/route.ts
+│   │   ├── health/route.ts
+│   │   ├── logout/route.ts
+│   │   ├── orders/route.ts
+│   │   └── refresh/route.ts
+│   ├── breweries/                  # Pages brasseries
+│   │   ├── page.tsx
+│   │   ├── countries/page.tsx
+│   │   └── favoris/page.tsx
+│   ├── dashboard/
+│   │   └── page.tsx                # Dashboard utilisateur
+│   └── components/
+│       └── Navbar.tsx              # Navigation
+├── lib/
+│   ├── api.ts                      # Client HTTP
+│   └── auth.ts                     # Helpers JWT
+├── public/                         # Assets statiques
+├── next.config.ts
+├── next-env.d.ts
+├── tsconfig.json
+├── package.json
+├── package-lock.json
+├── postcss.config.mjs
+├── eslint.config.mjs
+├── proxy.ts
+├── Dockerfile
+├── .env.example
+├── .gitignore
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Lancement
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Local
 
-## Learn More
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Application : <http://localhost:3000>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Docker
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+docker build -t frontend .
+docker run -p 3000:3000 frontend
+```
 
-## Deploy on Vercel
+### Docker Compose / Kubernetes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+docker-compose up -d frontend
+kubectl apply -f k8s/frontend/
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🔐 Configuration (`.env.local`)
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000
+AUTH_SERVICE_URL=http://localhost:8000
+ORDER_SERVICE_URL=http://localhost:4000
+BREWERIES_SERVICE_URL=http://localhost:3001
+
+# Docker Compose :
+# AUTH_SERVICE_URL=http://auth-service:8000
+# ORDER_SERVICE_URL=http://order-service:4000
+# BREWERIES_SERVICE_URL=http://breweries-service:3001
+```
+
+⚠️ **Important** : Les routes `/app/api/*` font office de **proxy** vers les backend services !
+
+---
+
+## 📡 Routes Principales
+
+| Route | Description |
+|-------|-------------|
+| `/` | Page d'accueil / login |
+| `/dashboard` | Dashboard utilisateur |
+| `/breweries` | Liste des brasseries |
+| `/breweries/favoris` | Favoris utilisateur |
+| `/breweries/countries` | Brasseries par pays |
+
+### API Routes (Proxy Backend)
+
+| Endpoint | Cible | Description |
+|----------|-------|-------------|
+| `/api/auth-login` | auth-service | Authentification |
+| `/api/breweries` | breweries-service | Liste brasseries |
+| `/api/favorites` | breweries-service | Gestion favoris |
+| `/api/orders` | order-service | Gestion commandes |
+| `/api/health` | Tous | Health checks |
+
+---
+
+## 🛠️ Troubleshooting
+
+| Problème | Solution |
+|----------|----------|
+| Port 3000 in use | Changer port : `npm run dev -- -p 3001` |
+| Erreurs CORS | Vérifier `.env.local` et services backend |
+| 404 sur `/api/*` | Vérifier que les services backend sont démarrés |
+| Cookies non définis | Vérifier `httpOnly` et `sameSite` dans route.ts |
+
+---
+
+## 📚 Documentation
+
+- [Next.js 16 Docs](https://nextjs.org/docs)
+- [App Router](https://nextjs.org/docs/app)
+- [Tailwind CSS](https://tailwindcss.com/)
+
+---
+
+**Version** : 1.0
+**Dernière mise à jour** : Décembre 2025

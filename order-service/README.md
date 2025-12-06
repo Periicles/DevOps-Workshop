@@ -1,98 +1,137 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Order Service
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Service de gestion des commandes utilisateur basé sur NestJS et Prisma ORM.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+**Port** : `4000` | **Framework** : NestJS | **Langage** : TypeScript | **BD** : SQLite (Prisma)
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📁 Structure
 
-## Project setup
-
-```bash
-$ npm install
+```text
+order-service/
+├── src/
+│   ├── main.ts                     # Entry point NestJS
+│   ├── app.module.ts               # Module principal
+│   ├── app.controller.ts           # Controller principal
+│   ├── app.controller.spec.ts      # Tests controller
+│   ├── app.service.ts              # Service principal
+│   ├── health.controller.ts        # Health check
+│   ├── auth/
+│   │   ├── jwt-auth.guard.ts       # Guard JWT
+│   │   └── user.decorator.ts       # Décorateur utilisateur
+│   └── orders/
+│       ├── orders.module.ts
+│       ├── orders.controller.ts    # Routes /orders
+│       ├── orders.controller.spec.ts
+│       ├── orders.service.ts       # Logique métier
+│       ├── orders.service.spec.ts
+│       └── dto/
+│           └── create-order.dto.ts
+├── prisma/
+│   ├── schema.prisma               # Schéma DB Prisma
+│   ├── prisma.service.ts           # Service Prisma
+│   └── migrations/                 # Historique migrations
+├── test/
+│   ├── app.e2e-spec.ts
+│   └── jest-e2e.json
+├── package.json
+├── package-lock.json
+├── nest-cli.json
+├── tsconfig.json
+├── tsconfig.build.json
+├── eslint.config.mjs
+├── prisma.config.ts
+├── .prettierrc
+├── Dockerfile
+├── .env.example
+├── .gitignore
+└── README.md
 ```
 
-## Compile and run the project
+---
+
+## 🚀 Lancement
+
+### Local
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cd order-service
+npm install
+npx prisma migrate dev
+npm run start:dev
 ```
 
-## Run tests
+API : <http://localhost:4000>
+
+### Docker
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker build -t order-service .
+docker run -p 4000:4000 -e JWT_SECRET=your-secret-key order-service
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Docker Compose / Kubernetes
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker-compose up -d order-service
+kubectl apply -f k8s/order/
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🔐 Configuration (`.env`)
 
-Check out a few resources that may come in handy when working with NestJS:
+```env
+DATABASE_URL="file:./dev.db"
+JWT_SECRET=your-super-secret-key-change-in-production
+PORT=4000
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+⚠️ **Important** : `JWT_SECRET` doit être **identique** à celui de l'auth-service !
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 📡 API Endpoints
 
-## Stay in touch
+| Méthode | Endpoint | Description | Auth |
+|---------|----------|-------------|------|
+| POST | `/orders` | Créer une commande | ✅ |
+| GET | `/orders` | Liste des commandes utilisateur | ✅ |
+| GET | `/orders/:id` | Détails d'une commande | ✅ |
+| PATCH | `/orders/:id` | Modifier une commande | ✅ |
+| DELETE | `/orders/:id` | Supprimer une commande | ✅ |
+| GET | `/health` | Health check | ❌ |
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Créer une commande
 
-## License
+```bash
+curl -X POST http://localhost:4000/orders \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"breweryId":"abc123","quantity":2,"totalPrice":25.50}'
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+## 🛠️ Troubleshooting
+
+| Problème | Solution |
+|----------|----------|
+| Port 4000 in use | Changer `PORT` dans `.env` |
+| JWT validation failed | Vérifier `JWT_SECRET` identique à auth-service |
+| Prisma migration error | `npx prisma migrate reset` puis `npx prisma migrate dev` |
+| Database locked | Redémarrer le service |
+
+---
+
+## 📚 Documentation
+
+- [NestJS Docs](https://docs.nestjs.com/)
+- [Prisma Docs](https://www.prisma.io/docs)
+- [Prisma Schema](https://www.prisma.io/docs/concepts/components/prisma-schema)
+
+---
+
+**Version** : 1.0  
+**Dernière mise à jour** : Décembre 2025
