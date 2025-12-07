@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: juliencouraud/auth-service:latest
+          image: periicles/auth-service:latest
           ports:
             - containerPort: 8000
 

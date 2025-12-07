@@ -2,9 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: breweries-service
-  namespace: default
+  labels:
+    app: breweries-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: breweries-service
@@ -15,12 +16,9 @@ spec:
     spec:
       containers:
       - name: breweries-service
-        image: breweries-service:latest
-        imagePullPolicy: Never
+        image: periicles/breweries-service:latest
         ports:
         - containerPort: 3001
-          name: http
-          protocol: TCP
         env:
         - name: PORT
           value: "3001"
@@ -33,28 +31,25 @@ spec:
           value: /app/data/breweries.db
         - name: NODE_ENV
           value: production
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+
         volumeMounts:
         - name: data
           mountPath: /app/data
+
         livenessProbe:
           httpGet:
             path: /health
             port: 3001
           initialDelaySeconds: 10
           periodSeconds: 30
+
         readinessProbe:
           httpGet:
             path: /health
             port: 3001
           initialDelaySeconds: 5
           periodSeconds: 10
+
       volumes:
       - name: data
         persistentVolumeClaim:

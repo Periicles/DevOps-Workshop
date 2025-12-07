@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: juliencouraud/frontend:latest
+          image: periicles/frontend:latest
           ports:
             - containerPort: 3000
 

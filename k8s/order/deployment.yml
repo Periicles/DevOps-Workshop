@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: juliencouraud/order-service:latest
+          image: periicles/order-service:latest
           ports:
             - containerPort: 4000
 
