@@ -5,6 +5,7 @@ de la base de données au démarrage.
 """
 
 from dotenv import load_dotenv
+
 load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -49,7 +50,8 @@ def on_startup():
     """
     init_db()
 
-app.get("/health", tags=["health"])
+
+@app.get("/health", tags=["health"])
 def health_check():
     """
     Endpoint de vérification de l'état de santé du service.
