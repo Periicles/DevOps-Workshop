@@ -1,7 +1,6 @@
 import { cookies } from 'next/headers'
 
-const BREWERIES_BASE = process.env.BREWERIES_SERVICE_URL || 'http://localhost:3001'
-const BASE = `${BREWERIES_BASE}/breweries`
+const BREWERIES_SERVICE_URL = process.env.BREWERIES_SERVICE_URL;
 
 export async function GET(request: Request) {
     const cookieStore = await cookies()
@@ -15,11 +14,11 @@ export async function GET(request: Request) {
     const type = searchParams.get('type')
     const country = searchParams.get('country')
 
-    let url = BASE
+    let url = `${BREWERIES_SERVICE_URL}/breweries`
     if (type === 'random') {
-        url = `${BASE}/random`
+        url = `${BREWERIES_SERVICE_URL}/breweries/random`
     } else if (country) {
-        url = `${BASE}/country/${encodeURIComponent(country)}`
+        url = `${BREWERIES_SERVICE_URL}/breweries/country/${encodeURIComponent(country)}`
     }
 
     try {
@@ -47,7 +46,7 @@ export async function POST(request: Request) {
     try {
         const body = await request.json()
 
-        const r = await fetch(BASE, {
+        const r = await fetch(`${BREWERIES_SERVICE_URL}/breweries`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

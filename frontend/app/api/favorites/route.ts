@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAccessToken } from '@/lib/auth'
 
-const BREWERIES_SERVICE_URL = process.env.BREWERIES_SERVICE_URL || 'http://localhost:3001'
+const FAVORITES_URL = process.env.BREWERIES_SERVICE_URL
 
 /**
  * GET /api/favorites
@@ -18,7 +18,7 @@ export async function GET() {
             )
         }
 
-        const response = await fetch(`${BREWERIES_SERVICE_URL}/favorites`, {
+        const response = await fetch(`${FAVORITES_URL}/favorites`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        const response = await fetch(`${BREWERIES_SERVICE_URL}/favorites`, {
+        const response = await fetch(`${FAVORITES_URL}/favorites`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

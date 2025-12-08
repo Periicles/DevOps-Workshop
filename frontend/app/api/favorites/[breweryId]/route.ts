@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAccessToken } from '@/lib/auth'
 
-const BREWERIES_SERVICE_URL = process.env.BREWERIES_SERVICE_URL || 'http://localhost:3001'
+const FAVORITES_URL = process.env.BREWERIES_SERVICE_URL
 
 /**
  * DELETE /api/favorites/[breweryId]
@@ -29,8 +29,8 @@ export async function DELETE(
                 { status: 400 }
             )
         }
-
-        const response = await fetch(`${BREWERIES_SERVICE_URL}/favorites/${breweryId}`, {
+        console.log('URL:', `${FAVORITES_URL}/favorites/${breweryId}`)
+        const response = await fetch(`${FAVORITES_URL}/favorites/${breweryId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -80,7 +80,7 @@ export async function GET(
             )
         }
 
-        const response = await fetch(`${BREWERIES_SERVICE_URL}/favorites/${breweryId}/check`, {
+        const response = await fetch(`${FAVORITES_URL}/favorites/${breweryId}/check`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
