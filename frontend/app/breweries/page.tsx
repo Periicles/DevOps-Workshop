@@ -106,12 +106,12 @@ export default function BreweriesPage() {
         <main className="max-w-6xl mx-auto py-10 px-6">
             {/* Header with navigation */}
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-4xl font-bold">Explore Breweries</h1>
+                <h1 className="text-4xl font-bold">Explorateur de brasseries</h1>
                 <Link
                     href="/breweries/favoris"
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                    ♥ My Favorites ({favorites.size})
+                    ♥ Mes Favoris ({favorites.size})
                 </Link>
             </div>
 
@@ -121,13 +121,13 @@ export default function BreweriesPage() {
                     onClick={fetchRandomBrewery}
                     className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                 >
-                    Random Brewery 🎲
+                    Brasserie aléatoire
                 </button>
                 <Link
                     href="/breweries/countries"
                     className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                 >
-                    Browse by Country 🌍
+                    Listing par pays
                 </Link>
             </div>
 

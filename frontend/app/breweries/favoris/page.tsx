@@ -70,8 +70,8 @@ export default function FavoritesPage() {
         return (
             <main className="min-h-screen bg-gray-50 p-8">
                 <div className="max-w-4xl mx-auto">
-                    <h1 className="text-3xl font-bold mb-8">My Favorite Breweries</h1>
-                    <div className="text-center py-12">Loading...</div>
+                    <h1 className="text-3xl font-bold mb-8">Mes Brasseries Favorites</h1>
+                    <div className="text-center py-12">Chargement...</div>
                 </div>
             </main>
         )
@@ -80,7 +80,7 @@ export default function FavoritesPage() {
     return (
         <main className="min-h-screen bg-gray-50 p-8">
             <div className="max-w-4xl mx-auto">
-                <h1 className="text-3xl font-bold mb-8">My Favorite Breweries</h1>
+                <h1 className="text-3xl font-bold mb-8">Mes Brasseries Favorites</h1>
 
                 {error && (
                     <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
@@ -90,12 +90,12 @@ export default function FavoritesPage() {
 
                 {favorites.length === 0 ? (
                     <div className="bg-white rounded-lg shadow p-8 text-center">
-                        <p className="text-gray-600 mb-4">You haven&apos;t added any favorites yet.</p>
+                        <p className="text-gray-600 mb-4">Vous n&apos;avez pas encore ajouté de favoris.</p>
                         <Link
                             href="/breweries"
                             className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
                         >
-                            Explore Breweries
+                            Explorer les Brasseries
                         </Link>
                     </div>
                 ) : (
@@ -121,14 +121,14 @@ export default function FavoritesPage() {
                                         rel="noopener noreferrer"
                                         className="text-blue-600 hover:text-blue-800 text-sm mb-4 inline-block"
                                     >
-                                        Visit Website →
+                                        Visiter le site →
                                     </a>
                                 )}
                                 <button
                                     onClick={() => handleRemove(brewery.id)}
                                     className="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
                                 >
-                                    Remove from Favorites
+                                    Retirer des Favoris
                                 </button>
                             </div>
                         ))}
@@ -140,7 +140,7 @@ export default function FavoritesPage() {
                         href="/breweries"
                         className="text-blue-600 hover:text-blue-800"
                     >
-                        ← Back to Breweries
+                        ← Retour aux Brasseries
                     </Link>
                 </div>
             </div>

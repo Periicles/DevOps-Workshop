@@ -27,7 +27,7 @@ export default function Navbar() {
                                 : 'text-gray-700 hover:bg-gray-100'
                                 }`}
                         >
-                            Dashboard
+                            Commandes
                         </Link>
                         <Link
                             href="/breweries"
