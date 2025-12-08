@@ -1,6 +1,6 @@
 # DevOps-Workshop
 
-Un projet micro-services DevOps complet avec 4 services indépendants déployables en local, via Docker Compose ou Kubernetes.
+Un projet en micro-services DevOps complet avec 4 services indépendants déployables en local, via Docker Compose ou Kubernetes.
 
 ## Description
 
@@ -64,7 +64,7 @@ Interface utilisateur React avec :
 
 Service d'authentification centralisé :
 
-- Emission et validation des JWT tokens
+- Émission et validation des JWT tokens
 - Rafraichissement des tokens
 - Endpoints JWKS publiques
 - Stockage des utilisateurs dans SQLite
@@ -73,24 +73,24 @@ Service d'authentification centralisé :
 
 Gestion des brasseries et favoris :
 
-- Integration avec l'API [OpenBreweryDB](https://www.openbrewerydb.org/) (Pas de clé API requise)
-- Recuperation et filtrage des brasseries
-- Systeme de favoris utilisateur (SQLite)
-- Endpoints proteges par JWT
+- Intégration avec l'API [OpenBreweryDB](https://www.openbrewerydb.org/) (Pas de clé API requise)
+- Récuperation et filtrage des brasseries
+- Système de favoris utilisateur (SQLite)
+- Endpoints protéges par JWT
 
 ### Order Service (NestJS) - Port 4000
 
 Gestion des commandes :
 
-- Creation et consultation des commandes
+- Création et consultation des commandes
 - Association aux utilisateurs
 - Stockage avec Prisma/SQLite
 
 ## Installation et Lancement
 
-### 1. Mode Local (Developpement)
+### 1. Mode Local (Développement)
 
-Prerequis :
+Prérequis :
 
 - Python 3.9+
 - Node.js 20+
@@ -133,86 +133,86 @@ npm install
 npm run dev
 ```
 
-Acces au frontend : <http://localhost:3000>
+Accès au frontend : <http://localhost:3000>
 
 ### 2. Mode Docker Compose
 
-Prerequis : Docker et Docker Compose installés
+Prérequis : Docker et Docker Compose installés
 
 ```bash
-# Demarrer tous les services
+# Démarrer tous les services
 docker-compose up -d
 
-# Verifier les logs
+# Vérifier les logs
 docker-compose logs -f
 
-# Arreter les services
+# Arrêter les services
 docker-compose down
 ```
 
-Acces au frontend : <http://localhost:3000>
+Accès au frontend : <http://localhost:3000>
 
 ### 3. Mode Kubernetes Local
 
-Prerequis :
+Prérequis :
 
 - kubectl configuré
 - Minikube installé
 - Docker installé
 - Compte Docker Hub
 
-#### Etape 1 : Demarrer Minikube
+#### Étape 1 : Démarrer Minikube
 
 ```bash
 minikube start --driver=docker --cpus=4 --memory=5000mb
 ```
 
-#### Etape 2 : Construction et publication des images Docker
+#### Étape 2 : Construction et publication des images Docker
 
 ```bash
-# Se connecter a Docker Hub
+# Se connecter à Docker Hub
 docker login
 
 # Construire les images
-docker build -t juliencouraud/frontend:latest frontend/
-docker build -t juliencouraud/order-service:latest order-service/
-docker build -t juliencouraud/auth-service:latest auth-service/
-docker build -t juliencouraud/breweries-service:latest breweries-service/
+docker build -t username/frontend:latest frontend/
+docker build -t username/order-service:latest order-service/
+docker build -t username/auth-service:latest auth-service/
+docker build -t username/breweries-service:latest breweries-service/
 
 # Publier sur Docker Hub
-docker push juliencouraud/frontend:latest
-docker push juliencouraud/order-service:latest
-docker push juliencouraud/auth-service:latest
-docker push juliencouraud/breweries-service:latest
+docker push username/frontend:latest
+docker push username/order-service:latest
+docker push username/auth-service:latest
+docker push username/breweries-service:latest
 ```
 
-Note : Remplacer `juliencouraud` par votre nom d'utilisateur Docker Hub et mettre a jour les fichiers `k8s/*/deployment.yml` en consequence.
+Note : Remplacer `username` par votre nom d'utilisateur Docker Hub et mettre à jour les fichiers `k8s/*/deployment.yml` en conséquence.
 
-#### Etape 3 : Deploiement des services
+#### Étape 3 : Déploiement des services
 
 ```bash
-# Deployer les services
+# Déployer les services
 kubectl apply -f k8s/auth/
 kubectl apply -f k8s/order/
 kubectl apply -f k8s/frontend/
 kubectl apply -f k8s/breweries/
 
-# Verifier le statut
+# Vérifier le statut
 kubectl get pods
 kubectl get svc
 ```
 
-#### Etape 4 : Configuration de l'Ingress
+#### Étape 4 : Configuration de l'Ingress
 
 ```bash
 # Activer l'addon ingress
 minikube addons enable ingress
 
-# Verifier que l'ingress controller est pret
+# Vérifier que l'ingress controller est prêt
 kubectl get pods -n ingress-nginx
 ```
 
-#### Etape 5 : Configuration DNS locale
+#### Étape 5 : Configuration DNS locale
 
 ##### macOS / Linux
 
@@ -221,7 +221,7 @@ kubectl get pods -n ingress-nginx
 minikube ip
 ```
 
-Editer le fichier hosts :
+Éditer le fichier hosts :
 
 ```bash
 sudo nano /etc/hosts
@@ -245,37 +245,37 @@ Ajouter la ligne :
 127.0.0.1 devops.local
 ```
 
-#### Etape 6 : Deploiement de l'Ingress
+#### Étape 6 : Déploiement de l'Ingress
 
 ```bash
-# Deployer l'ingress
+# Déployer l'ingress
 kubectl apply -f k8s/ingress/
 
-# Verifier l'ingress
+# Vérifier l'ingress
 kubectl get ingress
 ```
 
-#### Etape 7 : Demarrer le tunnel Minikube
+#### Étape 7 : Démarrer le tunnel Minikube
 
-Dans un terminal separe :
+Dans un terminal séparé :
 
 ```bash
 minikube tunnel
 ```
 
-Ce tunnel permet a l'Ingress Controller d'avoir une IP accessible localement.
+Ce tunnel permet à l'Ingress Controller d'avoir une IP accessible localement.
 
-#### Etape 8 : Acces a l'application
+#### Étape 8 : Accès à l'application
 
 Ouvrir le navigateur : <http://devops.local>
 
-#### Etape 9 : Nettoyage
+#### Étape 9 : Nettoyage
 
 ```bash
-# Supprimer tous les deployments
+# Supprimer tous les déploiements
 kubectl delete -f k8s/
 
-# Arreter minikube
+# Arrêter minikube
 minikube stop
 
 # Supprimer le cluster (optionnel)
@@ -286,7 +286,7 @@ minikube delete
 
 ### Frontend
 
-Fichier : `frontend/.env.local` (developpement) ou `frontend/.env` (production)
+Fichier : `frontend/.env.local` (développement) ou `frontend/.env` (production)
 
 ```env
 # URL de base du frontend
@@ -344,9 +344,9 @@ NODE_ENV=production
 
 Points importants :
 
-- Le `JWT_SECRET` doit etre identique pour tous les services
+- Le `JWT_SECRET` doit être identique pour tous les services
 - En Docker/Kubernetes, utiliser les noms de service au lieu de `localhost`
-- Les bases de donnees SQLite persistent via volumes Docker
+- Les bases de données SQLite persistent via volumes Docker
 - Chaque service expose un endpoint `/health`
 
 ## Appels API Principaux
@@ -361,9 +361,9 @@ Points importants :
 | POST | `/api/favorites` | Oui | Ajouter aux favoris |
 | DELETE | `/api/favorites/:id` | Oui | Retirer des favoris |
 | GET | `/api/orders` | Oui | Lister commandes |
-| POST | `/api/orders` | Oui | Creer commande |
+| POST | `/api/orders` | Oui | Créer commande |
 
-## Technologies Utilisees
+## Technologies Utilisées
 
 - Frontend : Next.js 16, React, TypeScript
 - Auth Service : FastAPI, Python 3.9+
