@@ -225,7 +225,7 @@ export default function BreweriesPage() {
                             <h3 className="text-lg font-semibold mb-1">{brewery.name}</h3>
                             <p className="text-sm text-gray-600 mb-3">{brewery.brewery_type}</p>
 
-                            <div className="text-xs text-gray-500 space-y-1 mb-4 flex-grow">
+                            <div className="text-xs text-gray-500 space-y-1 mb-4 grow">
                                 {brewery.street && <p>{brewery.street}</p>}
                                 {brewery.city && (
                                     <p>
