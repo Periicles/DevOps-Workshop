@@ -69,25 +69,6 @@ export default function BreweriesPage() {
         }
     }
 
-    async function fetchBreweriesByCountry(country: string) {
-        try {
-            setLoading(true)
-            const res = await fetch(`/api/breweries?country=${encodeURIComponent(country)}`)
-            if (res.status === 401) {
-                window.location.href = '/'
-                return
-            }
-            if (!res.ok) throw new Error('Failed')
-            const data = await res.json()
-            setBreweries(Array.isArray(data) ? data : [])
-            setCountryFilter(country)
-        } catch {
-            setError('Could not load breweries for this country')
-        } finally {
-            setLoading(false)
-        }
-    }
-
     async function toggleFavorite(brewery: Brewery) {
         try {
             if (favorites.has(brewery.id)) {
