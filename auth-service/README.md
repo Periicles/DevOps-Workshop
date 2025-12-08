@@ -18,7 +18,7 @@ auth-service/
 ├── jwks.py          # Routes clés publiques
 ├── init_db.py       # Initialisation DB
 ├── requirements.txt # Dépendances Python
-├── Dockerfile       # Containerisation
+├── Dockerfile        # Containerisation
 ├── .gitignore       # Fichiers ignorés Git
 └── README.md        # Documentation
 ```
