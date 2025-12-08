@@ -17,8 +17,8 @@ spec:
                 port:
                   number: 8000
 
-          # 2) Breweries-service : /breweries → Express.ts
-          - path: /breweries
+          # 2) Breweries-service : /brewery → Express.ts
+          - path: /brewery
             pathType: Prefix
             backend:
               service:
