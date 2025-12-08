@@ -1,5 +1,4 @@
 import sqlite3 from 'sqlite3'
-import path from 'path'
 
 // Initialize SQLite database
 const dbPath = process.env.DB_PATH || './breweries.db'
